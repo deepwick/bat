@@ -69,7 +69,6 @@ def env(tmp_path_factory):
         **os.environ,
         "BAT_CONFIG_DIR": str(config),
         "BAT_CONFIG_PATH": str(root / "no-config"),
-        "BAT_CACHE_PATH": str(root / "xdg-cache" / "bat"),
         "XDG_CACHE_HOME": str(root / "xdg-cache"),
     }
     subprocess.run(["bat", "cache", "--build"], env=environment, check=True, capture_output=True)
@@ -147,10 +146,13 @@ def test_delta_feature_uses_diff_backgrounds(env, tmp_path):
         ["git", "diff", "--no-index", "--no-color", "a.py", "b.py"],
         cwd=tmp_path, capture_output=True, text=True,
     ).stdout
-    out = subprocess.run(
+    result = subprocess.run(
         ["delta", "--config", str(gitconfig), "--true-color=always", "--paging=never"],
         input=diff, env=env, check=True, capture_output=True, text=True,
-    ).stdout
+    )
+    assert result.stderr == ""
+    out = result.stdout
+    assert style_of(out, "2")["fg"] == hexof("sage")
     backgrounds = {style["bg"] for _, style in runs(out)}
     for name in ("diffAdded", "diffRemoved", "diffAddedEmph", "diffRemovedEmph"):
         assert hexof(name) in backgrounds, name
