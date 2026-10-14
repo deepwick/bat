@@ -1,12 +1,12 @@
 import os
 import plistlib
-import re
 import shutil
 import subprocess
 from pathlib import Path
 
 import pytest
 
+from deepwick_spec.ansi import SGR, runs, style_of
 from deepwick_spec.check_port import check_port
 from deepwick_spec.palette import load_palette
 
@@ -14,7 +14,6 @@ REPO = Path(__file__).resolve().parents[1]
 SAMPLES = REPO.parent / "spec" / "samples"
 PALETTE = load_palette()
 C = PALETTE.colors
-SGR = re.compile(r"\x1b\[([0-9;]*)m")
 
 requires_bat = pytest.mark.skipif(shutil.which("bat") is None, reason="requires bat")
 requires_delta = pytest.mark.skipif(shutil.which("delta") is None, reason="requires delta")
@@ -22,41 +21,6 @@ requires_delta = pytest.mark.skipif(shutil.which("delta") is None, reason="requi
 
 def hexof(name):
     return C[name].lower()
-
-
-def runs(text):
-    """Split ANSI output into (text, style) runs; style tracks 24-bit fg/bg, bold, italic."""
-    blank = {"fg": None, "bg": None, "bold": False, "italic": False}
-    style, out, pos = dict(blank), [], 0
-    for m in SGR.finditer(text):
-        if m.start() > pos:
-            out.append((text[pos:m.start()], dict(style)))
-        params = [int(p) if p else 0 for p in m.group(1).split(";")]
-        i = 0
-        while i < len(params):
-            p = params[i]
-            if p == 0:
-                style = dict(blank)
-            elif p == 1:
-                style["bold"] = True
-            elif p == 3:
-                style["italic"] = True
-            elif p in (38, 48) and params[i + 1 : i + 2] == [2]:
-                r, g, b = params[i + 2 : i + 5]
-                style["fg" if p == 38 else "bg"] = f"#{r:02x}{g:02x}{b:02x}"
-                i += 4
-            i += 1
-        pos = m.end()
-    if pos < len(text):
-        out.append((text[pos:], dict(style)))
-    return out
-
-
-def style_of(text, token):
-    for chunk, style in runs(text):
-        if chunk.strip() == token:
-            return style
-    raise AssertionError(f"no run equal to {token!r}")
 
 
 @pytest.fixture(scope="module")
