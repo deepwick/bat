@@ -1,0 +1,27 @@
+# Deepwick feature for delta. Include this file, then enable the feature:
+#   [include]
+#       path = /path/to/deepwick.gitconfig
+#   [delta]
+#       features = deepwick
+[delta "deepwick"]
+    dark = true
+    syntax-theme = Deepwick
+    plus-style = syntax "#152424"
+    plus-emph-style = syntax "#1D3528"
+    minus-style = syntax "#341123"
+    minus-emph-style = syntax "#4C1828"
+    zero-style = syntax
+    line-numbers-plus-style = "#57A64A"
+    line-numbers-minus-style = "#F44747"
+    line-numbers-zero-style = "#6E7899"
+    line-numbers-left-style = "#1B2140"
+    line-numbers-right-style = "#1B2140"
+    file-style = bold "#569CD6"
+    file-decoration-style = "#569CD6" ul
+    hunk-header-style = file line-number syntax
+    hunk-header-decoration-style = "#1B2140" box
+    hunk-header-file-style = "#569CD6"
+    hunk-header-line-number-style = "#6E7899"
+    commit-style = bold "#DCDCAA"
+    commit-decoration-style = "#DCDCAA" box
+    blame-palette = "#04041a #10192C"
