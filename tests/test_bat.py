@@ -94,7 +94,7 @@ def test_python_escape_is_gold(env):
 @requires_bat
 def test_typescript_interface_is_mint_and_regex_is_rose(env):
     out = bat(env, SAMPLES / "sample.ts")
-    assert style_of(out, "Greeter")["fg"] in (hexof("mint"), hexof("teal"))
+    assert style_of(out, "Greeter")["fg"] == hexof("mint")
     regex = [style for chunk, style in runs(out) if "hello," in chunk]
     assert regex and regex[0]["fg"] == hexof("rose")
 
