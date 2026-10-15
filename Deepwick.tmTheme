@@ -60,7 +60,7 @@
     </dict>
     <dict>
       <key>name</key><string>Macro</string>
-      <key>scope</key><string>entity.name.function.macro, entity.name.macro</string>
+      <key>scope</key><string>entity.name.function.macro, entity.name.macro, entity.name.constant.preprocessor, entity.name.function.preprocessor</string>
       <key>settings</key><dict><key>foreground</key><string>#C586C0</string></dict>
     </dict>
     <dict>
@@ -115,7 +115,7 @@
     </dict>
     <dict>
       <key>name</key><string>Preprocessor</string>
-      <key>scope</key><string>meta.preprocessor, entity.name.function.preprocessor</string>
+      <key>scope</key><string>meta.preprocessor</string>
       <key>settings</key><dict><key>foreground</key><string>#6E7899</string><key>fontStyle</key><string>bold</string></dict>
     </dict>
     <dict>

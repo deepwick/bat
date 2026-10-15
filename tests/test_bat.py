@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from deepwick_spec.ansi import SGR, runs, style_of
+from deepwick_spec.ansi import SGR, line_with, runs, style_of
 from deepwick_spec.check_port import check_port
 from deepwick_spec.palette import load_palette
 
@@ -120,6 +120,16 @@ def test_delta_feature_uses_diff_backgrounds(env, tmp_path):
     backgrounds = {style["bg"] for _, style in runs(out)}
     for name in ("diffAdded", "diffRemoved", "diffAddedEmph", "diffRemovedEmph"):
         assert hexof(name) in backgrounds, name
+
+
+@requires_bat
+def test_c_macro_names_are_magenta_and_directives_bold_foreground(env):
+    out = bat(env, SAMPLES / "sample.c")
+    for name in ("MAX_RETRIES", "SQUARE"):
+        assert style_of(line_with(out, f"#define {name}"), name)["fg"] == hexof("magenta"), name
+    for directive in ("#include", "#define"):
+        style = style_of(out, directive)
+        assert style["fg"] == hexof("foreground") and style["bold"], directive
 
 
 def test_port_conventions():

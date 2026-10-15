@@ -25,7 +25,9 @@ or set `BAT_THEME=Deepwick`. bat draws italics only when asked, so add
 
 ## delta
 
-delta reads bat's theme cache, so install the bat theme first. Then add to
+delta has no theme directory of its own: it loads bat's built cache from
+`~/.cache/bat` (or `$XDG_CACHE_HOME/bat`), and ignores `BAT_CACHE_PATH`. So
+install the bat theme and run `bat cache --build` first. Then add to
 your `~/.gitconfig`:
 
 ```ini
