@@ -16,7 +16,6 @@ PALETTE = load_palette()
 C = PALETTE.colors
 
 requires_bat = pytest.mark.skipif(shutil.which("bat") is None, reason="requires bat")
-requires_delta = pytest.mark.skipif(shutil.which("delta") is None, reason="requires delta")
 
 
 def hexof(name):
@@ -97,29 +96,6 @@ def test_typescript_interface_is_mint_and_regex_is_rose(env):
     assert style_of(out, "Greeter")["fg"] == hexof("mint")
     regex = [style for chunk, style in runs(out) if "hello," in chunk]
     assert regex and regex[0]["fg"] == hexof("rose")
-
-
-@requires_bat
-@requires_delta
-def test_delta_feature_uses_diff_backgrounds(env, tmp_path):
-    (tmp_path / "a.py").write_text("x = 1\nname = 'a'\n")
-    (tmp_path / "b.py").write_text("x = 2\nname = 'a'\n")
-    gitconfig = tmp_path / "gitconfig"
-    gitconfig.write_text(f"[include]\n    path = {REPO / 'deepwick.gitconfig'}\n[delta]\n    features = deepwick\n")
-    diff = subprocess.run(
-        ["git", "diff", "--no-index", "--no-color", "a.py", "b.py"],
-        cwd=tmp_path, capture_output=True, text=True,
-    ).stdout
-    result = subprocess.run(
-        ["delta", "--config", str(gitconfig), "--true-color=always", "--paging=never"],
-        input=diff, env=env, check=True, capture_output=True, text=True,
-    )
-    assert result.stderr == ""
-    out = result.stdout
-    assert style_of(out, "2")["fg"] == hexof("sage")
-    backgrounds = {style["bg"] for _, style in runs(out)}
-    for name in ("diffAdded", "diffRemoved", "diffAddedEmph", "diffRemovedEmph"):
-        assert hexof(name) in backgrounds, name
 
 
 @requires_bat

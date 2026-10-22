@@ -1,4 +1,4 @@
-# Deepwick for bat and delta
+# Deepwick for bat
 
 A deep navy syntax theme with Visual Studio 2022's colors, for
 [bat](https://github.com/sharkdp/bat) and
@@ -25,10 +25,9 @@ or set `BAT_THEME=Deepwick`. bat draws italics only when asked, so add
 
 ## delta
 
-delta has no theme directory of its own: it loads bat's built cache from
-`~/.cache/bat` (or `$XDG_CACHE_HOME/bat`), and ignores `BAT_CACHE_PATH`. So
-install the bat theme and run `bat cache --build` first. Then add to
-your `~/.gitconfig`:
+Deepwick for delta now lives in
+[deepwick/delta](https://github.com/deepwick/delta), which is the maintained
+copy. This repo keeps `deepwick.gitconfig` so existing includes keep working:
 
 ```ini
 [include]
@@ -37,9 +36,6 @@ your `~/.gitconfig`:
     features = deepwick
 ```
 
-Added and removed lines get dim green and red backgrounds, with stronger
-backgrounds on the changed words.
-
 ## Notes
 
 - `variable.language` (Python `self`, JavaScript `this`) is Blue, matching
@@ -47,7 +43,7 @@ backgrounds on the changed words.
 - Diff file headers and hunk ranges are Blue.
 - Python decorators (`@dataclass`) are Yellow, like functions.
 
-Tested with bat 0.26.1 and delta 0.19.2.
+Tested with bat 0.26.1.
 
 ## License
 

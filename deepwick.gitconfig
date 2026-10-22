@@ -1,4 +1,6 @@
-# Deepwick feature for delta. Include this file, then enable the feature:
+# Deepwick feature for delta. The maintained copy lives in
+# https://github.com/deepwick/delta; this one stays so existing includes keep working.
+# Include this file, then enable the feature:
 #   [include]
 #       path = /path/to/deepwick.gitconfig
 #   [delta]
