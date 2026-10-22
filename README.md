@@ -1,8 +1,8 @@
 # Deepwick for bat
 
 A deep navy syntax theme with Visual Studio 2022's colors, for
-[bat](https://github.com/sharkdp/bat) and
-[delta](https://github.com/dandavison/delta).
+[bat](https://github.com/sharkdp/bat). For delta, see
+[Deepwick for delta](https://github.com/deepwick/delta).
 
 > Deepwick is an unofficial theme derived from
 > [Polywick Blue](https://vscode.polywickstudio.net) by Polywick Studio (MIT).
